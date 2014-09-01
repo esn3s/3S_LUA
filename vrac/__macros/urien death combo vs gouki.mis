@@ -1,0 +1,53 @@
+# urien 100% on cornered gouki with taunt...
+&9
+w3
+
+# akuma crouches, PA, dash
+-_D,+
+36.
+W46,F..F. 
+
+# hj.HK, MK tackle, akuma can stop crouching now
+W19,D.UF.UF._B,W39,6.W20*,F5.-*_B+ 
+
+# xx LP aegis, HK tackle
+W5,D.DF.F.D.DF.F1._B,W76*,F6. 
+
+# c.HP(1) xx MP sphere xx MP aegis
+W45,D3.W6,D.DF.F2.W19,D.DF.F.D.DF.F2. 
+
+# delay start of charging, walk, s.MP xx LK tackle
+W24,_B,W40*,_F,W15*,_B,2.W4*,F4. 
+
+# s.MP xx LK tackle, s.MP xx EX headbutt
+_B,W43,2.W4*,F4._D,W43*,2.W3.,U12. 
+
+# HK tackle, HK tackle, MP headbutt
+_B,W57*,F6._B,W44*,F6._D,W46..*,U2.
+
+!
+
+# urien 100% on cornered gouki with taunt... original version, not working...
+&6
+w20
+
+# akuma crouches, PA, dash
+-_D,+W100,36.W46,F..F. 
+
+# hj.HK, MK tackle, akuma can stop crouching now
+W19,D.UF.UF._B,W39,6.W20*,F5.-*+ 
+
+# xx LP aegis, HK tackle
+W5,D.DF.F.D.DF.F1._B,W76*,F6. 
+
+# c.HP(1) xx MP sphere xx MP aegis
+W45,D3.W6,D.DF.F2.W19,D.DF.F.D.DF.F2. 
+
+# delay start of charging, walk, s.MP xx LK tackle
+W24,_B,W40*,_F,W15*,_B,2.W4*,F4. 
+
+# s.MP xx LK tackle, s.MP xx EX headbutt
+_B,W42,2.W4*,F4._D,W42*,2.W3.,U12. 
+
+# HK tackle, HK tackle, MP headbutt
+_B,W57*,F6._B,W44*,F6._D,W46..*,U2.!

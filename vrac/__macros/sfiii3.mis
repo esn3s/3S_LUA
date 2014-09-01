@@ -1,0 +1,1102 @@
+# command throw techable or not...
+&2.
+<
+f.df.d.db.b.4..41
+/
+w8.
+14.
+>
+
+.
+
+!
+
+# Ken cr.mk x hadou xx sa3 confirm tests...
+&2.
+<
+d5.
+w2.d.df.f2.w14.d.df.f.d.df4. # hadou...
+#w13.d.df.f.d.df4.# raw SA3...
+/
+w10._d_b.w50.
+>
+w50.
+!
+
+# Mak dash cancel tests...
+&5.
+f..f.
+w20.
+
+f.# parry...
+#f.df.d.db.b6. # karakusa
+#d.df.f.d.df1. # SA1
+
+.*.
+!
+
+# Chun Hakkei xx Houyokusen no combo second wave...
+&2.
+<
+#w0.b3.w17.d.df.f.d.df4.
+w0.b3.w14.b.db.d.df.f3.w12.d.df4.
+
+/
+d3._d.w50._b.
+w200.*.
+>
+.
+
+!
+
+# ken SA3 vs ryu ex srk...
+#&2.
+&3.
+w3.
+<
+d.df.f.d.df.f.6.
+/
+w2.f.d.df.12.
+>
+.
+!
+
+# ken SA3 vs ryu ex srk...
+&2.
+<
+d.df.f.d.df.f.6.
+/
+d.df.f.d.df.f.4.
+>
+.
+!
+
+# mak sjc 
+&2.
+u.
+d.df.f.u_3.....
+4.
+*
+!
+
+# punish ex sbk...
+&2
+<
+_d.
+w13.*.
+u45.
+_u.w150.*.
+/
+w28.
+_b.
+.w38.
+*.
+1..1..f2.4.3.
+#d.df.f.d.df1.
+
+>
+
+.
+!
+
+#  q vs ryu, corner double reverse c&db mk...
+&2.
+f.df.d.db.b.5.
+w5.
+_d_b.w80.*.
+f.2._d_b.
+w10*._d_f.
+w32.*.b2.
+*
+.
+!
+
+# reset kkz...
+&6.
+d5.
+w5.d.db.b.4.
+w45.1.
+w11.
+# possible values for above parameter with 45 frames before lp...
+# remy: 12/13/14
+# ibuki: 11/12
+# oro: 10/11
+# twelve: 
+d..d..d.f_2.
+#.d.df.f.d_5.df*.
+13.
+w5.*.
+-_b.w100.*.+
+!
+
+# parry to hyakuretsu...
+&8
+uf.uf.
+w28.
+<
+#1.w20.14. # hit then throw
+1.w13.d.df.f.d.df.f.w57.1.
+/
+f.w12.d.df.f.d.df1..
+>
+
+*-*+
+.!
+
+# parry to hyakuretsu...
+&5.
+w34.
+<
+#w10.w21.f..d2...6..6..6..6.w5.6. # down + mp kara
+#w10.w21.f.6..6..6..6.w8.6. # hk auto kara
+w10.w21.6..6..6..6.w7._f..*._6.w4.*. # before parry
+
+/
+w15.3.
+>
+
+*-*+
+.!
+
+# chicken combo vs Hugo...
+&6.
+2.
+w12.
+b.db.d.df.f5.
+w59.f.f.f.f.f.f.
+2.
+w12.
+b.db.d.df.f5.
+
+.!
+
+# koushun special!
+&10.
+w5.
+b3-_d.+.w2.
+d.df.f.d.df4.-*+
+w170.d.._u_f.w5.*.
+w5.3.w10.3.
+w44.df6.
+_d.w57.3.w5.*.u5.
+
+*-*+
+.!
+
+# ken double srk
+&9.w30.2.w2.f.d.df.1.w52.f.d.df5.1. # midscreen double Ken srk vs shoto...
+#&8.w30.uf.uf.uf.w29.f.d.b.u.f.d.b.u.1.# gigas...
+
+.!
+
+# Q C&Db, mp dash punch, hp dash punch vs Urien...
+&10.
+f.df.d.db.b.6.
+_b_d.
+w81.*.f._b_d...2.
+w42.
+*.f.3
+
+
+.
+!
+
+# Q C&Db cornered, double dash punches vs shotos...
+&10
+f.df.d.db.b.5.
+_b_d.
+w83.*.f._b...2.
+w15.
+*._f.
+w27.
+*.b.1.
+
+.
+!
+
+# mak vs throw inv on wakeup super...
+&7.<f14.w106.f..f.w10.14./w118.d.db.b.6.>
+#&10.<2.w16.f.df.d.db.b.4./w23.d.df.f.d.df.f.4.>
+.!
+
+# Q OS try?
+&8
+-
+f.df.
+w7.d.db
+w9.
+b4.
++
+.
+!
+
+# wakeup throw inv checks...
+#&5.w2.f.d.df1.
+#&6.w5.<w5.f2..1..1.f.4.3./.>  # demon to catch P2 without QR as soon as possible... 100
+#&6.w5.<w5.f2..1..1.f.4.3./w77.2.>  # demon to catch P2 without QR as soon as possible, P2 reversal cl.mp... 100/178
+#&7.w5.<w35.f2..1..1.f.4.3./w14.d.>  # demon to catch P2 after QR as soon as possible... 75/50
+
+# hit/blk stun checks...
+#&5.w2.<6.1..1.f.4.3./> # demon to catch P2 as soon as possible after hitstun...
+#&5.w2.<6.1..1.f.4.3./w4.b.> # demon to catch P2 as soon as possible after blkstun...
+&5.w2.<6.1..1.f.4.3./w84.2.> # demon to catch P2 as soon as possible after hitstun, P2 do cl.mp...
+#&5.w2.<6.1..1.f.4.3./w4.b.w76.2.> # demon to catch P2 as soon as possible after blkstun, P2 do cl.mp...
+>
+.
+!
+
+# demon to catch P2 after QR as soon as possible...
+
+# tests kara C&DB...
+&8.
+-
+f.df.d.db._2.b4
+.*.
++
+.
+!
+
+# tests throw inv after hit/blk stun,  remy vs Q, Q throwing...
+&9.
+w2.
+<
+w3.b.
+w20.
+#_u.w20.*.
+/
+1.w21.b2.14.
+>
+
+.
+!
+
+# tests throw inv after hit/blk stun, mak vs ryu, mp karakusa...
+&2.
+w4.
+2.w5.
+<
+w15.
+f.df.d.db.b.4.
+/
+#_b.w2.*.
+#w20._b.w20.*.
+w50._u.w40.*.
+w12.
+d.df.f.d.df.f.1.2.3.1.2.3.
+>
+w100.
+!
+
+# denjin tests...
+&2.
+w5.
+d.df.f.d.df.f._1.w29.
+#&4._1.
+
+#(2.3.)100 # only MP and HP buttons...
+#(f.df.d.db.b.bu.u.uf.)15 # full circle with diagonals...
+#(f2.df3.d2.db3.b2.bu3.u2.uf3.)15 # full circle with diagonals and P...
+#(f.d.b.u.)50 # full circle, no diagonals...
+#(fd.db.bu.uf.)50 # full circle, only diagonals...
+(db2.uf3.)36 # full, fastest so far: 33 frames...
+#(bd2.fu3.)9 # 4 charge, fastest so far: 18 frames...
+#(bd2.fu3.)4 # 3 charge, fastest so far: 8 frames...
+
+*.
+!
+
+# tests kara EX...
+&2.
+d5.
+w10.
+f.d.df.1.
+w47.
+f.d_5.df12
+
+.w5.*.
+!
+
+# Makoto 100% on Chun, cornered... 
+&6.
+f.df.d.db.b.4.w146.3.w1d.df.f.d.df.f.5.w155.f..f.
+w36.b.d.db.1.
+w40.4....f.d.df.1
+
+.!
+
+# remy machine gun lov...
+&8.
+w2.
+#-_d_b.+
+_d_b.
+<
+w42*f._b_d.w6.1.
+w34*f._b_d.w2.4.
+w30*f._b_d.w2.1.
+
+w25*f._b_d.w2.5.
+w32*f._b_d.w2.2.
+w26*f._b_d.w2.6.
+w33*f._b_d.w2.1.
+
+w25*f._b_d.w2.45.
+w30*f._b_d.w2.12.
+w26*f._b_d.w2.45.
+w30*f._b_d.w2.12.
+w26*f._b_d.w2.45.
+
+/
+
+w70.f.
+w40.d.
+w38.f.
+w30.d.
+w35.f.
+w29.d.
+
+w40.f.
+
+>
+
+.
+!
+
+w42*f._b_d.w6.4.
+w34*f._b_d.1.
+w24*f._b_d.w2.4.
+
+w31*f._b_d.w2.2.
+w26*f._b_d.w2.5.
+w32*f._b_d.w2.3.
+w27*f._b_d.w2.6.
+
+w33*f._b_d.w2.12.
+w26*f._b_d.w2.45.
+w30*f._b_d.w2.12.
+w26*f._b_d.w2.45.
+#w30*f._b_d.w2.12.
+
+w30*f._b_d.w2.3.
+
+-*.+
+.
+!
+
+# Q sggk/kara C&DB...
+&9.
+w5.
+f.df.d.db.b.6.
+w40.
+-d.df.f.1.+
+w17.
+f..b2..f.df.d.db.b.w7.6
+
+
+.
+!
+
+# Makoto 100% on Chun... 
+&4
+#f.df.d.db.b.4.w146.3.w1d.df.f.d.df.f.5.w146.f..f. # start from karakusa
+w20.f..f.
+w15._f.w1.*.b.d.db.4.1.
+w40._f.w9.*.
+b.d.db.4.1
+
+.!
+
+._b.w2.*_f.w5.*.
+b.d.db.4.1.
+w35.
+f.d.df.4.1.
+.
+!
+
+# Makoto 100% on Chun... 
+&2
+#f.df.d.db.b.4.w50.
+d.df.f.d.df.f.6.
+w149.f..f.
+w15._f.w10*.b.d.db.w5.4.1.
+w20._b.w30.*
+b.d.db.4.1.
+
+.
+!
+
+
+w17. # 2 for earliest
+f..f.w12. # dash
+b.d.db.3. # fukiage
+w40.
+f..f. # dash
+w11.b.d.db.12. # EX fukiage
+w23.d.ub.
+w25.3.
+
+.
+!
+
+# for hit confirms tests...
+&4
+w1. # to remember : trigger to launch acquisition is a precise frame number...
+
+#2.w13.3.# target combo, hit, no super, slowest
+#2.w3.3.# target combo, hit, no super, fastest
+
+#< 2.w13.3. / w3._b.w13.* > # target combo, block, no super, slowest
+#< 2.w3.3. / w3._b.w12.* > # target combo, block, no super, fastest
+#w5.d.df.f.d.df6. # SA3
+#-_b.w78.*..f.w1.f.d.df.1.+ # SA3 pour slowest
+#-_b.w63.*..f.w3.2.w12.f.d.df.1.w55.f.d.df5.1.+ # SA3 pour fastest
+
+d5.# Ken's low forward, hit, no super
+d5.w3.-_d_b.+# Ken's low forward, block, no super 
+w7.d.df.f.d.df4.# blocked super
+w50.-_b.w11.*..f..f.d.df.1.w58.f.d.df5.1.w46.36.+
+#w13.d.df.f.d.df4. # hit, super, slowest
+#.d.df.f.d.df4. # hit, super, fastest
+w5.
+-*+
+.
+!
+
+#
+&2
+w1.
+<
+f.df.d.db.b.6
+/
+...f.df.d.db.b.6
+>
+
+.
+!
+
+
+# Oro kara command grab...
+&2
+w2.
+f.df.d.db.b.5.3.
+
+!
+
+
+# grosse claque dans Yun!
+&2
+w2.
+2.
+-
+d.df.f.d.df.f.w1.1
+w90.
+_f.w12.*.
++
+.
+!
+
+# Q can't escape on emu!
+&3.
+w5.
+_d.
+w80.
+-
+_d_b.w45.*.f.6.w15.d.df.f.d.df.f.1.
++
+.w35.*.
+.
+!
+
+# Hugo SA3 max range...
+&3
+_b.
+-d.df.f.d.df.f.1.+
+w10.
+
+w76.
+#*.-_b.+.
+*.-_.+.
+d.df.f.d.df.f.1.
+#w50._1w3 # min 3 frames held...
+w50._1w6 # min 6 frames held...
+*.
+!
+w100.
+.
+!
+
+# urien 100% on cornered gouki with taunt...
+&9
+w3
+
+# akuma crouches, PA, dash
+-_D,+
+36.
+W46,F..F. 
+
+# hj.HK, MK tackle, akuma can stop crouching now
+W19,D.UF.UF._B,W39,6.W20*,F5.-*_B+ 
+
+# xx LP aegis, HK tackle
+W5,D.DF.F.D.DF.F1._B,W76*,F6. 
+
+# c.HP(1) xx MP sphere xx MP aegis
+W45,D3.W6,D.DF.F2.W19,D.DF.F.D.DF.F2. 
+
+# delay start of charging, walk, s.MP xx LK tackle
+W24,_B,W40*,_F,W15*,_B,2.W4*,F4. 
+
+# s.MP xx LK tackle, s.MP xx EX headbutt
+_B,W43,2.W4*,F4._D,W43*,2.W3.,U12. 
+
+# HK tackle, HK tackle, MP headbutt
+_B,W57*,F6._B,W44*,F6._D,W46..*,U2.
+
+!
+
+# Q C&Db, double dash punches...
+&9
+w5.
+f.df.d.db.b.ub.
+-14+
+w4.6.
+_b.
+w84.*.
+f._b..3.
+w15.
+*._f.
+w31.
+*.b.3.
+
+!
+
+#
+&2.
+w5.
+d.df.f_1.w3.4.*._u.w50. # fastest hayate cancel...
+
+.
+!
+
+
+# tests Q/Mak throw invulnerability...
+&2.
+w5.
+d-d+
+w20.
+_d-_d+
+w10.
+*-*+
+-f.df.d.db.b.6+
+d.
+w50.
+14.
+w3.
+-14+
+w20.
+-_d+
+w10.
+14.w5.-*+.
+
+.
+!
+
+# Hugo standing 720...
+&10.w50.f.d.b.u.f.d.b.u.1.-_u+_u.w700.*-*+.!
+
+
+# test kara EX...
+&2.
+w5.
+d.db.b._5.21
+
+.
+!
+
+# Q instant dash after SA1...
+&7.
+d.df.f.d.df.f.1.
+w135.
+_b.w35.*.
+w10.
+_f.w13.*.b3
+
+.
+!
+
+# Q C&Db, double dash punches...
+&9
+w5.
+f.df.d.db.b.6.
+_b.
+w84.*.
+f._b..3.
+w15.
+*._f.
+w31.
+*.b.3.
+
+!
+
+# remy machine gun lov...
+&6.
+_d_b.
+w42*f._b.w7.6.(w35*f._b.3.w35*f._b.6.)10
+
+.
+!
+
+# urien cr hp xx tackles xxx...
+&4.
+#-u+w18.d3.w2._d_b.w42*f5._b.(w42*f5._b.)10 # chun hit at apex of jump...
+
+d3.w2._d_b.w48*.f5._b.w43*f5._b.(w42*f5._b.)11 # chun on ground...
+
+.
+!
+
+# Q charge partition tests...
+&3
+w5.
+#5.w10.u._b.w40.*._f.w10.*.f..f.w20._b.w5.*.f.1 # forward, dash forward, dash punch...
+
+# reset, charge during mk and st far lp...
+#5.w3.u.w3._b.w23.*.1._b.w12.*._f.w25.*._b.w2.*.f1.
+
+# reset, charge during cr.mp...
+d3.w3.u.w3._b.w40.*._f.w25.*._b.w2.*.f1.
+
+.
+!
+
+# Makoto 100% on CHUN, start on SA2 last hit... 
+&3
+w17. # 2 for earliest
+f..f.w12. # dash
+b.d.db.3. # fukiage
+w40.
+f..f. # dash
+w11.b.d.db.12. # EX fukiage
+w23.d.ub.
+w25.3.
+
+.
+!
+
+# Makoto 100% on CHUN, start on SA2 last hit... 
+&3
+w2. # 2 for earliest
+f..f.w27. # dash
+w0.
+b.d.db.3. # fukiage
+w41.
+b..b. # dash
+#w11.f.d.df..d_6.*1. # lk xx fukiage
+w15.4....f.d.df.1. # lk xx fukiage
+
+.
+!
+
+d.df.6.f_1.w3.4 # kara hayate cancelled...
+
+# Makoto 100% on CHUN, full combos...
+&2.
+f.df.d.db.b.6.w150. # karakusa
+3.w0.d.df.f.d.df.f.5. # SA2
+w172. # 146 for earliest action
+f..f.w6. # dash
+f.d.df.3. # fukiage
+
+.
+!
+
+# Q sjc c&db...
+&2
+w2.
+<
+#f.df.d.db.b.ub.w2.6.
+#d.db.b.ub.w2.1.
+w2.14.
+/
+f.d.df.w2.1.
+#w3.14.
+>
+!
+
+
+&3
+w3.
+-d.df.f.3.+
+w7.
+d.df.f.1.
+
++
+
+.
+!
+
+*
+
+.
+!
+_d.w45.*.w2.
+b3.u56.
+.
+!
+_b_d.w45.*.f.
+
+.
+!
+_d.w50.*.u.45.
+
+.
+
+!
+
+# tests hk tatsu punish...
+&7
+w5.
+_d_b.
+-d5.w7.d.db.b.6.+
+*._b.
+w57.*.-_b+
+f.d5.df.3.
+
+w100.
+
+*
+
+!
+
+# check cancel properties...
+
+&6
+w1.
+3.w8.3.! # Self cancel
+#6.w6.f.d.df.3.! # Special cancel
+#6.w5.d.df.f.d.df4.! # Super cancel
+#3.w8.d..u.! # Superjump cancel
+
+!
+
+&5
+w3.
+d5.
+w3.
+f.d.df1.!
+d.df.f.d.df4.!
+.
+!
+
+# Chun multi hyakuretsu...
+&10
+w5.
+4..4..4..4.
+_f.w10.*.f..f.w15._b.w10.*.
+4.
+w20.
+5..5..5..5.
+w30.
+5.
+w20.
+6..6..6..6.
+w30.
+6. # recovery longer, reduce next delay...
+w18.
+45..45..45..45.
+w30.
+45.
+
+.
+
+!
+
+
+# Q sggk b+mp~c&db...
+&10
+w5
+-d.df.f.1.+
+w16.
+f....
+b2.
+w10.
+f.df.d.db.b6.
+
+!
+
+# Q sggk d+lp~SA2...
+&10
+w5
+-d.df.f.1.+
+w7.
+f...
+d1.
+w28.
+d.df.f.d.df3.
+
+!
+
+# empty jump vs sweep test...
+&6
+uf.uf.
+w26.
+-d6.+
+
+
+!
+
+# Necro vs Urien : Elbow x6...
+&2
+w3.
+db3.w32.
+_fw14*.
+db3.w32.
+db3.w32.
+db3.w32.
+db3.w32.
+db3.w32.
+db3.w32.
+db3.w32.
+
+!
+
+db3.w32.
+db3.w32.
+db3.w32.
+db3.
+!
+db3.w15.
+db3.w15.
+db3.w15.
+
+!
+
+# Makoto wakeup vs Dudley meaty...
+&6
+-
+w7.f..f.w8.f..f.w14.f..f.
++
+w29.
+<
+..u.
+/
+2.
+>
+
+!
+
+&5
+w2.
+- # Dudley
+14.
+w200.
+2.
+
+!
+
+# Q sjc c&db, vs Gigas...
+&3
+w2.
+<
+f.df.d.db.b.ub.w2.w52.6.
+/
+f.d.b.u.f.d.b.u3.
+>
+!
+
+# Q throw immunity while back to standing, vs Gigas...
+&3
+w2.
+d.w2.
+-f.d.b.u.f.d.b.u3+
+w90.d.
+w15.
+!
+
+# throw kkz, position must be those of beginning of the round needed...
+&3
+w5.
+-_fw10*+
+d..d..d..123.
+w58.
+-w14._fw7.*f2.14.
+
+!
+
+# necro vs hugo, throw check
+&7.
+w5.
+
+
+3.w3.
+-f.d.b.u.f.d.b.3.+
+
+
+
+
+
+!
+
+# UOH setup for frame data collect...
+# save a state with P1 slightly out of uoh range...
+
+&4.w10.(F.w10)2.25.w60
+&4.w10.(F.w10)9.25.w60
+
+!
+
+# STANDING HIT CHECKS...
+&6.w10.F...F.w20.25.w50 # dash forward to get closer...
+&6.w10.(F.w10)1.25.w60 # should whiff
+&6.w10.(F.w10)2.25.w60
+&6.w10.(F.w10)3.25.w60
+&6w10.(F.w10)4.25.w60
+&6w10.(F.w10)5.25.w60
+
+# STANDING GUARD CHECKS...
+&6w10.F...F.w20.25.w10.-_Bw10.*+.w50 # dash forward to get closer...
+&6w10.(F.w10)5.25.w13.-_Bw10.*+.w50 # should whiff
+&6w10.(F.w10)6.25.w13.-_Bw10.*+.w50
+&6w10.(F.w10)7.25.w13.-_Bw10.*+.w50
+
+# CROUCHING HIT CHECKS...
+&6w10.-_D+ F...F.w20.25.w50-*+w10 # dash forward to get closer...
+&6w10.-_D+(F.w10)3.25.w50-*+w10 # should whiff
+&6w10.-_D+(F.w10)4.25.w50-*+w10
+&6w10.-_D+(F.w10)5.25.w50-*+w10
+&6w10.-_D+(F.w10)6.25.w50-*+w10
+
+&6w10.25.w100 # last one, must whiff
+
+!
+
+# reset KKZ
+&2
+w20.
+
+3.w5.
+d.db.b.4.w46.
+1.w10.
+d..d..d.123.
+w200
+!
+
+# moves cancel time range...
+&10
+w10
+
+d5.
+f.d.df
+w2
+w8
+1
+
+.
+
+
+!
+
+# Gouki f+mp throw invulnerability
+&3
+f2.
+-u3+
+.
+
+
+
+
+!
+
+# Q crouching vs throw...
+&7
+w10
+14.
+w75.
+-d6+
+.
+
+
+
+!
+
+# Q kara SA2, Hugo from start of the round
+&6
+w230
+d.df.f.d.b2.df1.
+!
+
+# double Q kara SA2
+&2
+w250
+...
+_b-_b+w23*-*+.w70.
+d-d+.df-df+.f-f+.d-d+.b2-b2+.df1-df1+.
+w280
+36-36+.
+!
+
+# Q kara SA2, yun
+&4
+w100
+...
+d.df.f.d.b2.df1.
+
+!
+
+
+
+# Q kara SA2, Hugo from start of the round
+&6
+w230
+d.df.f.d.b2.df1.
+!
+
+
+
+# Q kara SA2, hugo
+&5
+w50
+...
+d.df.f.d.b2.df1.
+
+!
+
+!
+# HJC tests
+
+&9w50
+-F.FD.D.+
+-DB+F.-B4+FD.D.DB.B. # P1 C&DB + Makoto Karakusa
+- 4 + BU # P2 throw startup ans superjump start
+w6 # superjump startup : this delay value is SJ startup value - 1...
+6. # activate special
+
+
+# P2 throw
+
+!
+
+
+# test for superjump/throw
+w5
+F..F
+w20
+F.F.F.
++D..U.-
+14
+.
+
+# best denjin charge method + stun...
+d.df.f.d.df.f.
+_1.
+f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.
+f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.
+f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.
+f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.
+f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.
+
+-
+f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.
+f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.f2.b3.
+f2.b3.f2.b3.f2.b3.f2.
++
+f.

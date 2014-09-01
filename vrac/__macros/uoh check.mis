@@ -1,0 +1,40 @@
+# load state :
+#&6w5
+
+# UOH setup for frame data collect...
+# save a state with P1 slightly out of uoh range...
+
+# STANDING HIT CHECKS...
+&6w10.F...F.w20.25.w50 # dash forward to get closer...
+&6w10.(F.w10)1.25.w60 # should whiff
+&6w10.(F.w10)2.25.w60
+&6w10.(F.w10)3.25.w60
+&6w10.(F.w10)4.25.w60
+&6w10.(F.w10)5.25.w60
+
+# STANDING GUARD CHECKS...
+&6w10.F...F.w20.25.w10.-_Bw10.*+.w50 # dash forward to get closer...
+&6w10.(F.w10)5.25.w13.-_Bw10.*+.w50 # should whiff
+&6w10.(F.w10)6.25.w13.-_Bw10.*+.w50
+&6w10.(F.w10)7.25.w13.-_Bw10.*+.w50
+
+# CROUNCHING HIT CHECKS...
+&6w10.-_D+ F...F.w20.25.w50-*+w10 # dash forward to get closer...
+&6w10.-_D+(F.w10)3.25.w50-*+w10 # should whiff
+&6w10.-_D+(F.w10)4.25.w50-*+w10
+&6w10.-_D+(F.w10)5.25.w50-*+w10
+&6w10.-_D+(F.w10)6.25.w50-*+w10
+
+&6w10.25.w100 # last one, must whiff
+
+!
+
+
+# test for superjump/throw
+w5
+F..F
+w20
+F.F.F.
++D..U.-
+14
+.
