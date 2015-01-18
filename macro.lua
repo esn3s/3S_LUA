@@ -299,6 +299,7 @@ local funckeys = {
 	["e"] = function() setAcqEndFrame(frame) end,
 	["j"] = function() setAcqEndByP1JumpAfterFrame(frame) end, -- p1 jump
 	["k"] = function() setAcqEndByP1P2JumpAfterFrame(frame) end, -- p1 & p2 jump
+	["h"] = function() setAcqEndByP1P2JumpAfterP2Hit(frame) end, -- p1 & p2 jump, after p2 being hit...
 	-- End ACQ addings...
 	
 	["."] = function()
@@ -487,7 +488,7 @@ local function readMacroInfo(macro)
 	for l in file:lines() do
 		local line = trim(l)
 		if line ~= nil and string.len(line) > 0 then
-			print(string.sub(line, 4, string.len("IDCHAR")))
+			--print(string.sub(line, 4, string.len("IDCHAR")))
 		end
 	end
 	
@@ -938,7 +939,7 @@ function macroLua_registerBefore()
 		inputstream[frame] = inputstream[frame] or {}
 
 		-- ACQ...
-		ACQ_recordFrame(frame, inputstream[frame])
+		ACQ_recordFrame_before(frame, inputstream[frame])
 		
 		for p = 1,nplayers do
 			inputstream[frame][p] = inputstream[frame][p] or {}
@@ -987,6 +988,9 @@ function macroLua_registerBefore()
 	--must joypad.set the keytable with every registerbefore, even if multiple times per frame, to ensure all keys are sent
 	if playing then
 		if fba or mame then
+			-- ACQ addings...
+			ACQ.addMotions(keytable)
+			
 			joypad.set(keytable)
 		else
 			for p = 1,nplayers do joypad.set(p, keytable[p]) end
@@ -998,6 +1002,9 @@ end
 --[[ Perform recording and print status after the frame. ]]--
 
 function macroLua_registerAfter() --recording is done after the frame, not before, to catch input from playing macros
+	-- ACQ, need to do the actual acquisition in register after to correct order of image and data...
+	ACQ_recordFrame_after()
+	
 	--print(emu.framecount())
 	if recording then
 		recframe = recframe+1
