@@ -25,42 +25,83 @@ end
 -- states detections...
 -- --------------------
 
--- determine if player 1 is at neutral...
-function isP1Neutral()
-	return a(gameData.p1.attack) == 0 and a(gameData.p1.state) == 0
+-- print content of given table...
+function aft(tbl, str)
+	str = str or "aft"
+	
+	if tbl ~= nil then
+		for k, v in pairs(tbl) do
+			print(str, k, ";", v)
+		end
+	end
 end
 
-function isP2Neutral()
-	return a(gameData.p2.attack) == 0 and a(gameData.p2.state) == 0
+-- class to handle P1 and P2...
+PLAYER_CLASS = {}
+PLAYER_CLASS.__index = PLAYER_CLASS
+
+function PLAYER_CLASS.create(number)
+	local PLAYER = {}             -- our new object
+	setmetatable(PLAYER, PLAYER_CLASS)  -- make P1 handle lookup
+	
+	-- initialize our object
+	PLAYER.number = number
+	PLAYER.otherPlayer = function()
+		if PLAYER.number == 1 then
+			return P2
+		else
+			return P1
+		end
+	end
+	PLAYER.name = function() return "p"..PLAYER.number end
+	PLAYER.data = function() return gameData[PLAYER.name()] end
+	PLAYER.adr = function(adr, bUseOtherPlayer, sType) -- return address of given parameter name, second parameter will return address for the other player...
+		local p = (bUseOtherPlayer and PLAYER.otherPlayer().name()) or PLAYER.name()
+		return gameData[p][adr]
+	end
+	PLAYER.r = function(adr, bUseOtherPlayer, sType)
+		local t = sType or "b" -- b by default, can be dw, ws, w, b, bs...
+		return a(PLAYER.adr(adr, bUseOtherPlayer), t)
+	end
+   
+   print("PLAYER_CLASS : "..PLAYER.name().." object created...")
+   
+   return PLAYER 
 end
 
-function isP1Attack()
-	return a(gameData.p1.attack) > 0
+function PLAYER_CLASS:isNeutral() return self.r("attack") == 0 end
+function PLAYER_CLASS:isAttack() return self.r("attack") > 0 end
+function PLAYER_CLASS:isBeingHit()
+	--local a = self.r("hurt") > 0 -- not used, later than other parameter by one frame...
+	local b = self.r("hit_by_N") > 0
+	local c = self.r("hit_by_S") > 0
+	local d = self.r("hit_by_SA") > 0
+	local e = self.r("hit_by_SA_other") > 0
+	local f = self.r("damageOfNextHit", true) > 0
+	local g = self.r("stunOfNextHit", true) > 0
+	
+	return b or c or d or e or f or g
 end
+function PLAYER_CLASS:isJump() return self.r("state") == 12 or self.r("state") == 13 end
+function PLAYER_CLASS:x() return self.r("pos_x", false, "ws") end
+function PLAYER_CLASS:y() return self.r("pos_y", false, "ws") end
+function PLAYER_CLASS:sprite() return self.r("anim_frame", false, "w") end
+function PLAYER_CLASS:bar() return self.r("bar") end
+function PLAYER_CLASS:stun() return self.r("stun") end
+function PLAYER_CLASS:life() return self.r("life") end
+function PLAYER_CLASS:damageOfNextHit() return self.r("damageOfNextHit") end
+function PLAYER_CLASS:attack() return self.r("attack") end
+function PLAYER_CLASS:state() return self.r("state") end
 
-function isP2Attack()
-	return a(gameData.p2.attack) > 0
-end
+-- create objects for P1 and P2...
+P1 = PLAYER_CLASS.create(1)
+P2 = PLAYER_CLASS.create(2)
 
-function isP1Hurt()
-	return a(gameData.p1.hurt) > 0
-end
 
-function isP2Hurt()
-	return a(gameData.p2.hurt) > 0
-end
 
-function isP1Jump()
-	return a(gameData.p1.state) == 12 or a(gameData.p1.state) == 15
-end
-
-function isP2Jump()
-	return a(gameData.p2.state) == 12 or a(gameData.p2.state) == 15
-end
-
--- ------------------------
--- end states detections...
--- ------------------------
+-- ---------------------------
+-- end player objects creation
+-- ---------------------------
 
 function scr(indice, path)
 	if path == nil then path = "./" end
