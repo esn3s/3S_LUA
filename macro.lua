@@ -798,6 +798,29 @@ local function dumpinputstream()
 end
 
 local function playcontrol(silent)
+	
+	--[[ new way to use: possibility to loop through an array of macrolua files:
+	- if no file named 'ACQ_macrolua_list.lua' is found, use the regular one, defined in macro-options...
+	- if a file named 'ACQ_macrolua_list.lua' is found
+		- it must contain a variable 'ACQ_file_list' containing the list of files to read ond some other info...
+		ex:
+		ACQ_file_list = {
+			filename#1 = {
+				char = {
+					id = 14,
+					name = "Gouki"
+				},
+				move = {
+					id = 1,
+					name = "sthg",
+					motion = "",
+					macrolua = ""
+				}
+			}
+		}
+	
+	]]--
+	
 	if not playing then
 		if not parse(playbackfile) or warning("Macro is zero frames long.", macrosize == 0) or dumpinputstream(dumpmode) then
 			return
