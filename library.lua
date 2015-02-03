@@ -25,6 +25,120 @@ end
 -- states detections...
 -- --------------------
 
+-----------------------
+-- raw data ACQ...
+-----------------------
+
+dataACQ = {
+	memoryTableToString =  function (tbl, bCompress, sep)
+		-- transform memory chunk read as a table into a string with a separator between each value...
+		-- bCompress parameter allow to compress using basic scheme of repeated value through a single line...
+		-- 0,0,0,0,1,2,2,2,2,2,2,2,20, --> 0x4,1,2x7,20,
+		if(sep == nil) then sep = SEPARATOR end
+		
+		local str = ""
+		local compressedTblTmp = {}
+		local compressedTbl = {}
+		
+		--tbl = {0,0,0,0,1,2,2,2,2,2,2,2,20}
+		
+		if(bCompress == true) then
+			-- compress string values...
+			--str = "COMPRESSED DATA\n"
+			
+			local previousData = "first loop"
+			local currentData
+			local iNbValues = #tbl
+			local iCount = 0
+			local bWrite = false
+			local bDebug = true
+			
+			-- store first tbl value...
+			table.insert(compressedTblTmp, {["occ"] = 1, ["index"] = tbl[1]})
+			local iSize = #compressedTblTmp
+			
+			-- browse tbl and compare with previous value...
+			for i = 2, iNbValues do
+				if(tbl[i] == compressedTblTmp[iSize].index) then
+					-- same value, increment occurence...
+					compressedTblTmp[iSize].occ = compressedTblTmp[iSize].occ + 1
+				else
+					-- new value, add in compressedTblTmp...
+					table.insert(compressedTblTmp, {["occ"] = 1, ["index"] = tbl[i]})
+					iSize = #compressedTblTmp
+				end
+			end
+			
+			-- build final table...
+			for key, tmpTbl in pairs(compressedTblTmp) do
+				local s = (tmpTbl.occ == 1 and tostring(tmpTbl.index) or tostring(tmpTbl.index).."x"..tostring(tmpTbl.occ))
+				table.insert(compressedTbl, s)
+			end
+			
+			tbl = compressedTbl
+		end
+		
+		-- raw string values...
+		--str = "RAW DATA\n"
+		
+		for key, value in pairs(tbl) do
+			str = str..value..sep
+		end
+		
+		--print()
+		--print(tbl)
+		--print(str)
+		
+		return str.."\n"
+	end,
+	acqFrame = function(addrStart, iBlockLength, iLoop)
+		-- addrStart : start address for ACQ...
+		-- iBlockLength : size of block to ACQ, added to addrStart to get endAddr...
+		-- iLoop : length of each line in final file...
+		
+		--print(os.clock())
+		
+		local prefix = getTimePrefix().."_"..emu.framecount().."_"..string.format("%05s", iTestLoop)
+		local fdFileName = prefix..".fd"
+		local imgFileName = prefix
+		
+		local _time0 = os.clock()
+		
+		-- read memory by range...
+		local iAddrStart = bit.band(addrStart, 0xfffffff0)
+		local iAddrEnd = bit.band((iAddrStart + iBlockLength), 0xfffffff0)
+		local str = "{\n"..emu.framecount()..";"..h(iAddrStart).."\n"
+		
+		print(emu.framecount().." / Reading memory : "..h(iAddrStart).." -> "..h(iAddrEnd))
+		
+		for iAddr = iAddrStart, iAddrEnd, iLoop do
+			local tblReadMemory = memory.readbyterange(iAddr, iLoop)
+			--print(iAddr, tblReadMemory)
+			local tmp = str..h(iAddr)..";"..dataACQ.memoryTableToString(tblReadMemory, true)
+			--print(tmp)
+			str = tmp
+		end
+		
+		str = str..emu.framecount()..";"..h(iAddrEnd).."\n}\n"
+		--print(str)
+		print(emu.framecount(), "ok")
+		
+		wrFile(str, fdFileName, "w+")
+		
+		local _time1 = os.clock()
+
+		--print("Total time : "..(_time1 - _time0))
+		
+		iTestLoop = iTestLoop + 1
+		
+		if(iTestLoop >= iTestLoopLimit) then bEnabled = false end
+	end
+
+}
+
+-----------------------
+-- end raw data ACQ...
+-----------------------
 -- print content of given table...
 function aft(tbl, str)
 	str = str or "aft"
@@ -34,6 +148,22 @@ function aft(tbl, str)
 			print(str, k, ";", v)
 		end
 	end
+end
+
+-- split string function...
+function string:split( inSplitPattern, outResults )
+  if not outResults then
+    outResults = { }
+  end
+  local theStart = 1
+  local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  while theSplitStart do
+    table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+    theStart = theSplitEnd + 1
+    theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+  end
+  table.insert( outResults, string.sub( self, theStart ) )
+  return outResults
 end
 
 -- class to handle P1 and P2...
