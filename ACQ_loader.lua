@@ -3,9 +3,9 @@ load needed modules for ACQ :
 - macrolua (modified version)
 - ACQ module
 
-in .mis file :
-- a : start acquisition trigger
-- e : end acquisition trigger
+First, we detect if we are going to ACQ several macrolua files at once, by reading an optionnal file:
+- batch_ACQ.lua
+
 ]]
 
 -- load all gd stuff...
@@ -18,12 +18,45 @@ local library_file = "./lua/library.lua"
 dofile(gameDatas_file, "r")
 dofile(library_file, "r")
 
-local Macro_LUA 		= "./MacroLua-1.13/macro.lua"
-dofile(Macro_LUA, "r")
-
 -- set playbackfile for ACQ process...
 local acqMacroFile = true
-if acqMacroFile then playbackfile = "./_macroLua/ACQ_macrolua.mis" end
+if acqMacroFile then c = "./_macroLua/ACQ_macrolua.mis" end
+
+--[[
+First, if batch mode is set to true, we detect if we are going to ACQ several macrolua files at once, by reading an optionnal file:
+- batch_ACQ.lua
+]]
+
+local bForceRegularMode = false
+local bBatchMode = false -- default, will be set to true when loading file if it exists...
+local batchModeParametersFile = "./_macroLua/ACQ_batch_param.lua"
+
+if bForceRegularMode == false then
+	if io.open(batchModeParametersFile, "r") then
+		print("ACQ batch mode, reading '" .. batchModeParametersFile .. "' file as parameters...")
+		dofile(batchModeParametersFile, "r")
+		
+		bBatchMode = ACQ_BATCH ~= nil and ACQ_BATCH.checkStatusOk()
+	else
+		print("Error: unable to open '" .. batchModeParametersFile .. "'")
+		return
+	end
+
+	if bBatchMode then
+		print("*** ACQ BATCH MODE, init OK", "Nb files to process:", ACQ_BATCH.nbFile())
+	else
+		print("*** ACQ BATCH MODE, init KO", "Error during checks")
+		if ACQ_BATCH ~= nil then ACQ_BATCH.viewListContent() end
+		return
+	end
+else
+	print("*** ACQ REGULAR MODE", "Using file '", playbackfile, "'")
+end
+
+print()
+
+local Macro_LUA 		= "./MacroLua-1.13/macro.lua"
+dofile(Macro_LUA, "r")
 
 local inp_display_script = "./MacroLua-1.13/input-display.lua"
 
@@ -48,6 +81,7 @@ end)
 
 ]]--
 ACQ = {
+	BATCH_MODE = bBatchMode == true,
 	startFrameNumber = -1, -- exact frame to start ACQ...
 	endFrameNumber = -1, -- exact frame to end ACQ...
 	earlyEndFrameNumber = -1, -- frame from which ACQ end will be possible...
@@ -86,11 +120,22 @@ ACQ = {
 		ACQ.started = ACQ.started or ACQ.bStart
 		ACQ.stopped = ACQ.stopped or (ACQ.started and ACQ.bStop)
 		
+		local previousStatus = ACQ.status
 		ACQ.status = ACQ.started and not ACQ.stopped
 		
+		if ACQ.status == false and previousStatus == true then
+			-- means we just detect end of a process, but we still need to record a couple frames after, due to frame before/after shifting thing...
+			ACQ.finalEndFrame = emu.framecount() + 3
+		end
+		
 		local frameNumber = string.format("%04s", frame)
-		local str = sp(tostring(ACQ.status), 5).." ("..sp(tostring(ACQ.started), 5).."/"..sp(tostring(ACQ.stopped), 5)..")"
-		print(str.." frame #"..frameNumber)
+		local str = sp(tostring(ACQ.status), 5).." / "..sp(tostring(ACQ.recordFrame()), 5)
+		str = str.." ("..sp(tostring(ACQ.started), 5).."/"..sp(tostring(ACQ.stopped), 5)..")"
+		print(frameNumber, str)
+	end,
+	
+	recordFrame = function()
+		return ACQ.status or (ACQ.started == true and ACQ.status == false and emu.framecount() < ACQ.finalEndFrame)
 	end,
 	
 	updateStatus = function(value, fct, name) -- will update given value using given function...
@@ -103,12 +148,15 @@ ACQ = {
 		end
 	end,
 	
+	continueProcess = false, -- used in case of several loads, if false, just stop everything...
+	
 	status = false, -- currently active or not...
 	bStart = false,
 	bStop = false,
 	started = false, -- ACQ started before...
 	stopped = false, -- ACQ already finished...
 	frame = -1,
+	finalEndFrame = -1,
 	typeACQ = nil, -- define type of ACQ...
 	triggerStart = nil, -- rule to start ACQ...
 	triggerEnd = nil, -- rule to end ACQ...
@@ -131,6 +179,25 @@ ACQ = {
 					end
 				end
 			},
+			forceP1ToJumpAfterEarlyFrame = {
+				status = false,
+				fct = function(kt)
+					if ACQ.frame >= ACQ.earlyEndFrameNumber then
+						ACQ.actions.resetAll(kt)
+						ACQ.actions.p1.jump(kt)
+					end
+				end
+			},
+			forceP1P2ToJumpAfterEarlyFrame = {
+				status = false,
+				fct = function(kt)
+					if ACQ.frame >= ACQ.earlyEndFrameNumber then
+						ACQ.actions.resetAll(kt)
+						ACQ.actions.p1.jump(kt)
+						ACQ.actions.p2.jump(kt)
+					end
+				end
+			},
 		},
 		resetAll = function(kt) -- empty all motions...
 			for k, v in pairs(kt) do
@@ -144,6 +211,7 @@ ACQ = {
 			for k, v in pairs(ACQ.actions.toDo) do
 				if v.status == true then
 					-- execute action...
+					print(k)
 					v.fct(kt)
 				end
 			end
@@ -169,8 +237,8 @@ ACQ = {
 		byP1Attack = function() return P1:isAttack() end,
 		byP2Attack = function() return P2:isAttack() end,
 		
-		byP1JumpAfterFrame = function(fr) return ACQ.triggerList.byFrameSupEqACQEnd(fr) and P1:isAttack() end,
-		byP1P2JumpAfterFrame = function(fr) return ACQ.triggerList.byFrameSupEqACQEnd(fr) and P1:isAttack() and P2:isAttack() end,
+		byP1JumpAfterFrame = function(fr) return fr >= ACQ.earlyEndFrameNumber and P1:isJump() end,
+		byP1P2JumpAfterFrame = function(fr) return fr >= ACQ.earlyEndFrameNumber and P1:isJump() and P2:isJump() end,
 		
 		byBothNeutral = function() return P1:isNeutral() and P2:isNeutral() end,
 	},
@@ -181,11 +249,12 @@ function ACQ_recordFrame_before(frame)
 end
 
 function ACQ_recordFrame_after()
-	local bProcess = true
+	local bProcess = false
 	
-	if ACQ.status == true then
+	if ACQ.recordFrame() then
 		-- screenshot frame...
-		local frameNumber = string.format("%04s", ACQ.frame).."-"..P1:attack().."-"..P1:state().."-"..P1:damageOfNextHit()
+		local frameNumber = string.format("%04s", ACQ.frame).."-"..P1:attack().."-"..P1:state().."-"..P1:damageOfNextHit().."-"..P2:attack().."-"..P2:state()
+		frameNumber = emu.framecount().." - "..frameNumber
 		
 		if bProcess then
 			scr(frameNumber, "./_ACQ/_rawData/")
@@ -196,7 +265,7 @@ end
 
 -- stop ACQ when p1 and p2 jump after p2 being hit...
 function setAcqEndByP1P2JumpAfterP2Hit(frame)
-	ACQ.earlyEndFrameNumber = frame
+	ACQ.earlyEndFrameNumber = frame + 5
 	
 	-- force game to make both player jump after p2 got hurt...
 	ACQ.actions.toDo.forceP1P2ToJumpAfterP2Hurt.status = true
@@ -215,32 +284,40 @@ function setAcqEndByP1P2JumpAfterP2Hit(frame)
 	print("### ACQ END BY P1 & P2 JUMP AFTER P2 BEING HIT")
 end
 
+-- stop ACQ when p1 jump after given frame + 5...
+function setAcqEndByP1JumpAfterFrame(frame)
+	ACQ.earlyEndFrameNumber = frame + 5
+	
+	-- force game to make p1 jump after early end frame...
+	ACQ.actions.toDo.forceP1ToJumpAfterEarlyFrame.status = true
+	
+	ACQ.triggerEnd = ACQ.triggerList.byP1JumpAfterFrame
+	print("### ACQ END BY P1 JUMP AFTER FRAME '"..ACQ.earlyEndFrameNumber.."'")
+end
+
+-- stop ACQ when p1 and p2 jump after given frame + 5...
+function setAcqEndByP1P2JumpAfterFrame(frame)
+	ACQ.earlyEndFrameNumber = frame + 5
+	
+	-- force game to make p1 and p2 jump after early end frame...
+	ACQ.actions.toDo.forceP1P2ToJumpAfterEarlyFrame.status = true
+	
+	ACQ.triggerEnd = ACQ.triggerList.byP1P2JumpAfterFrame
+	print("### ACQ END BY P1 & P2 JUMP AFTER FRAME '"..ACQ.earlyEndFrameNumber.."'")
+end
+
 -- start ACQ at given frame...
 function setAcqStartFrame(frame)
 	ACQ.startFrameNumber = frame
-	ACQ.triggerStart = ACQ.triggerList.byFrameSupEqACQStart
+	ACQ.triggerStart = ACQ.triggerList.byFrameEqACQStart
 	print("### ACQ START : "..ACQ.startFrameNumber)
 end
 
 -- stop ACQ at given frame...
 function setAcqEndFrame(frame)
 	ACQ.endFrameNumber = frame
-	ACQ.triggerStart = ACQ.triggerList.byFrameInfEqACQEnd
+	ACQ.triggerEnd = ACQ.triggerList.byFrameEqACQEnd
 	print("### ACQ END : "..ACQ.endFrameNumber)
-end
-
--- stop ACQ when p1 jump after given frame...
-function setAcqEndByP1JumpAfterFrame(frame)
-	ACQ.earlyEndFrameNumber = frame
-	ACQ.triggerEnd = ACQ.triggerList.byP1JumpAfterFrame
-	print("### ACQ END BY P1 JUMP AFTER FRAME '"..frame.."'")
-end
-
--- stop ACQ when p1 and p2 jump after given frame...
-function setAcqEndByP1P2JumpAfterFrame(frame)
-	ACQ.earlyEndFrameNumber = frame
-	ACQ.triggerEnd = ACQ.triggerList.byP1P2JumpAfterFrame
-	print("### ACQ END BY P1 & P2 JUMP AFTER FRAME '"..frame.."'")
 end
 
 gui.register(function()
@@ -256,7 +333,7 @@ function helpTraces()
 	displayValue(emu.framecount(), 180, 38, 0xBBBBffff)
 	
 	-- ACQ status...
-	local sColor = ACQ.status and 0x00FF00ff or 0xFF5555ff
+	local sColor = ACQ.recordFrame() and 0x00FF00ff or 0xFF5555ff
 	displayValue("ACQ #"..ACQ.frame, 7, 5, sColor)
 	
 	-- inputs bits...
@@ -290,6 +367,7 @@ function resetACQ()
 	ACQ.bStart = false
 	ACQ.bStop = false
 	ACQ.frame = -1
+	ACQ.finalEndFrame = -1
 	
 	ACQ.p1Has = {
 		beenBusy = { status = false, frame = -1, index = -1 },
@@ -303,6 +381,8 @@ function resetACQ()
 	}
 	
 	ACQ.actions.toDo.forceP1P2ToJumpAfterP2Hurt.status = false
+	ACQ.actions.toDo.forceP1ToJumpAfterEarlyFrame.status = false
+	ACQ.actions.toDo.forceP1P2ToJumpAfterEarlyFrame.status = false
 	
 	print("### ACQ RESETTED")
 end
