@@ -1,0 +1,47 @@
+## ID;4
+## CHAR;Gouki
+## IDCHAR;14
+## ACTION;6 + MP
+## COMMENT;Forward MP (crouch)
+## ACTION_TYPE;special normal
+## OPPONENT_ACTION;crouch
+## FBA_SAVESTATE_TO_LOAD;14 14 SA1 0 sfiii3an.fs
+## SLOT_USED;sfiii3an slot 09.fs
+## 
+
+# STATE LOAD
+
+# UOH helper script...
+&9.
+w2.
+a
+d2.
+j
+w100.
+!
+
+
+&9.
+
+# INIT
+
+<_f.w15/_f.w15>.<*/*_d>.w5.
+
+# TRIGGER START
+a # start acq now...
+
+# COMMAND
+f2
+
+# TRIGGER STOP
+#w20.e # ACQ end trigger --> this exact frame position...
+#j # ACQ end trigger --> wait for P1 to jump after this exact frame, p1 will be forced to jump after this exact frame + 5, no need to code it in macro...
+h # ACQ end trigger --> wait for both p1 & p2 to jump after this exact frame, p1 and p2 will be forced to jump after this exact frame + 5, no need to code it in macro...
+#k # ACQ end trigger --> wait for both p1 & p2 to jump but only after p2 being hit, both char will be forced to jump as soon as P2 is hit, no need to code it in macro...
+
+
+w400.
+
+
+.<*./*.>.*.
+!
