@@ -294,12 +294,15 @@ local function endframe()
 end
 
 local funckeys = {
+	
 	-- Begin ACQ addings, detect acquisition begin (a) and end (e)...
-	["a"] = function() setAcqStartFrame(frame) end,
-	["e"] = function() setAcqEndFrame(frame) end,
+	
+	["a"] = function() setAcqStartFrame(frame) end, -- set ACQ start frame...
+	["e"] = function() setAcqEndFrame(frame) end, -- set ACQ end frame...
 	["j"] = function() setAcqEndByP1JumpAfterFrame(frame) end, -- p1 jump
 	["k"] = function() setAcqEndByP1P2JumpAfterFrame(frame) end, -- p1 & p2 jump
 	["h"] = function() setAcqEndByP1P2JumpAfterP2Hit(frame) end, -- p1 & p2 jump, after p2 being hit...
+	
 	-- End ACQ addings...
 	
 	["."] = function()
@@ -372,6 +375,8 @@ local funckeys = {
 }
 
 local function digest(m)
+	--print("digest", m)
+	
 	local char = m:sub(1, 1) --Take the first character.
 	for func in pairs(funckeys) do --Look for special function characters.
 		if char == func then
@@ -385,6 +390,7 @@ local function digest(m)
 	local capture_start, capture_end = m:find("^[%$&] ?%d+") --Look for save/load ops.
 	if capture_end then
 		m:gsub("^([%$&]) ?(%d+)", function(o, s) --Queue save/load ops before parsing the controls.
+			--print("capture_end", o, s, frame)
 			op, slot, tempframe = o, s, frame --The frame number is not correct until the rest of the frame is parsed.
 			return
 		end)
@@ -452,6 +458,8 @@ end
 --[[ Read, interpret, and perform cleanup on the playback macro. ]]--
 
 local function preparse(macro)
+	--print("preparse")
+	
 	local file = path:gsub("\\", "/") .. macro
 	if not io.open(file, "r") then
 		print("Error: unable to open '" .. file .. "'")
@@ -481,26 +489,11 @@ local function preparse(macro)
 	return m
 end
 
-local function readMacroInfo(macro)
-	local file = path:gsub("\\", "/") .. macro
-	local file = io.input(file)
-	
-	for l in file:lines() do
-		local line = trim(l)
-		if line ~= nil and string.len(line) > 0 then
-			--print(string.sub(line, 4, string.len("IDCHAR")))
-		end
-	end
-	
-	file:close() --Close the file.
-end
-
 local function parse(macro)
+	print("parse", macro)
+	
 	-- reset previous ACQ if needed...
 	resetACQ()
-	
-	-- read data about macro to read...
-	readMacroInfo(macro)
 	
 	local m = (wait.duration and wait.before .. "W" .. wait.duration .. "," .. wait.after) or preparse(macro)
 	if not m then return end
@@ -576,6 +569,8 @@ local function finalize(t)
 		print("Stopped recording after zero frames.") print()
 		return
 	end
+	
+	--print("finalize")
 	
 	--Determine how many players were active.
 	local activeplayers = 0
@@ -673,6 +668,8 @@ end
 local playing,recording,pauseafterplay,pausenow,framediff = false,false,false,false
 
 local function bulletproof(active, f1, f2, t1, t2) --1 = current, 2 = loaded
+	--print("bulletproof", active, f1, f2, t1, t2)
+	
 	if not active then return false end
 	if f1 == 0 then return true end --loading on 0th frame is always OK
 	if not t2 then
@@ -717,9 +714,13 @@ if savestate.registersave and savestate.registerload then --registersave/registe
 			end
 			return
 		end
+		
+		--print("registerload : slot #"..slot, playing, recording)
+		
 		if not playing and not recording then
 			return
 		end
+		
 		if playing and not loopmode then
 			print("Loaded from slot", slot, "while playing frame", frame)
 		end
@@ -740,6 +741,8 @@ if savestate.registersave and savestate.registerload then --registersave/registe
 end
 
 local function dostate(f)
+	--print("dostate", f)
+	
 	if stateop[f+1] then
 		if savestate.create and savestate[stateop[f+1]] then
 			savestate[stateop[f+1]](savestate.create(stateslot[f+1])) return
@@ -798,40 +801,33 @@ local function dumpinputstream()
 end
 
 local function playcontrol(silent)
-	
-	--[[ new way to use: possibility to loop through an array of macrolua files:
-	- if no file named 'ACQ_macrolua_list.lua' is found, use the regular one, defined in macro-options...
-	- if a file named 'ACQ_macrolua_list.lua' is found
-		- it must contain a variable 'ACQ_file_list' containing the list of files to read ond some other info...
-		ex:
-		ACQ_file_list = {
-			filename#1 = {
-				char = {
-					id = 14,
-					name = "Gouki"
-				},
-				move = {
-					id = 1,
-					name = "sthg",
-					motion = "",
-					macrolua = ""
-				}
-			}
-		}
-	
-	]]--
-	
 	if not playing then
-		if not parse(playbackfile) or warning("Macro is zero frames long.", macrosize == 0) or dumpinputstream(dumpmode) then
+		print("playcontrol", "not playing", frame)
+		
+		local macroFile = playbackfile
+		
+		if ACQ.BATCH_MODE == true then
+			-- load next file in ACQ_BATCH list...
+			ACQ_BATCH.incrementFileIndex()
+			macroFile = ACQ_BATCH.getCurrentFileName()
+			print("BATCH file to load :", macroFile)
+		end
+		
+		if not parse(macroFile) or warning("Macro is zero frames long.", macrosize == 0) or dumpinputstream(dumpmode) then
 			return
 		end
 		if not silent then
-			print("Now playing " .. playbackfile .. " (" .. macrosize .. " frames)" .. (loopmode and " in loop mode" or wait.duration and " in incremental wait mode" or ""))
+			print("Now playing '" .. macroFile .. "' (" .. macrosize .. " frames)" .. (loopmode and " in loop mode" or wait.duration and " in incremental wait mode" or ""))
 		end
+		
+		print("playcontrol", "here", frame)
+		
 		dostate(frame)
 		playing = true
 		framediff = emu.framecount()
-	else 
+	else
+		print("playcontrol", "playing", frame)
+		
 		playing = false
 		inputstream = nil
 		if wait.duration then
@@ -883,6 +879,8 @@ local oldplaykey,oldrecordkey,oldpausekey,oldloopkey
 
 if input.registerhotkey then --use registerhotkey if available
 	input.registerhotkey(1, function()
+		--print("key playcontrol")
+		
 		playcontrol()
 	end)
 
@@ -956,6 +954,9 @@ function macroLua_registerBefore()
 	end
 	
 	--framediff check is necessary for emus where registerbefore runs multiple times per frame
+	
+	--print("framediff", framediff, emu.framecount())
+	
 	if playing and emu.framecount()-frame >= framediff then
 		frame = frame+1
 		dostate(frame)
@@ -1006,10 +1007,26 @@ function macroLua_registerBefore()
 				print("Macro finished playing.") print()
 			end
 		end
+	else
+		--print("out of loop", frame, emu.framecount(), framediff)
 	end
 	
 	--must joypad.set the keytable with every registerbefore, even if multiple times per frame, to ensure all keys are sent
 	if playing then
+		--print(frame)
+		
+		-- if BATCH MODE is on, detect if current macrolua code has finished and switch to next if needed...
+		if ACQ.BATCH_MODE == true then
+			-- detect if current macro has finished...
+			if ACQ.started and ACQ.recordFrame() == false then
+				-- load next macrolu file if any...
+				playcontrol() -- stop current macrolua...
+				playcontrol() -- launch next macrolua...
+			end
+			
+			--ACQ.continueProcess = false -- don't load anything else...
+		end
+		
 		if fba or mame then
 			-- ACQ addings...
 			ACQ.addMotions(keytable)
