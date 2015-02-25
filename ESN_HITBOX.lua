@@ -1,9 +1,11 @@
 --[[
 HITBOX display...
-Must be called in emu.registerbefore...
+- HITBOX.init() must be called in emu.registerbefore...
+- 
 ]]
 HITBOX = {
-	display = function()
+	display = function() HITBOX.init() end,
+	init = function()
 		HITBOX.currentFrame = emu.framecount()
 		HITBOX.screen_center_x = a(0x02026CB0, "w")
 		HITBOX.screen_center_y = a(0x0206A160, "w")
@@ -21,8 +23,8 @@ HITBOX = {
 		-- update param and hitbox raw data for each objects...
 		for player, v in pairs(HITBOX.data) do
 			if HITBOX.entity[player].display then
-				for kk, vv in pairs(HITBOX.param) do
-					HITBOX.data[player][kk] = a(HITBOX.entity[player].base + vv.offset, vv.type)
+				for paramName, vv in pairs(HITBOX.param) do
+					HITBOX.data[player][paramName] = a(HITBOX.entity[player].base + vv.offset, vv.type)
 				end
 				
 				for name, vv in pairs(HITBOX.hbType) do
@@ -42,9 +44,9 @@ HITBOX = {
 							-- draw it...
 							HITBOX.draw(HITBOX.data[player][name].boxData.emul, HITBOX.hbType[name].color)
 							
-							print(player, name, h(addr), HITBOX.debugHb(HITBOX.data[player][name].boxData.raw))
-							print("\t\tprepared"..HITBOX.debugHb(HITBOX.data[player][name].boxData.prepared))
-							print("\t\temul"..HITBOX.debugHb(HITBOX.data[player][name].boxData.emul))
+							--print(player, name, h(addr), HITBOX.data[player].FACING_DIR, HITBOX.data[player].POS_X.."x"..HITBOX.data[player].POS_Y, HITBOX.debugHb(HITBOX.data[player][name].boxData.raw))
+							--print("\t\t\tprepared: "..HITBOX.debugHb(HITBOX.data[player][name].boxData.prepared))
+							--print("\t\t\temul: "..HITBOX.debugHb(HITBOX.data[player][name].boxData.emul))
 						end
 					end
 					
@@ -88,14 +90,14 @@ HITBOX = {
 		
 		-- depending on FACING_DIR, add or substract values to get in game full coordinates...
 		-- left = position x object +/- cx raw hb...
-		-- right = position x object +/- (cx raw hb + width)
+		-- right = position x object +/- (cx raw hb - width), -width cause game draw draw box from x to before it...
 		local left, right
 		if param.FACING_DIR == 1 then
 			left 	= param.POS_X - raw.cx
-			right	= param.POS_X - (raw.cx - raw.width)
+			right	= param.POS_X - (raw.cx + raw.width)
 		else
 			left 	= param.POS_X + raw.cx
-			right	= param.POS_X + (raw.cx - raw.width)
+			right	= param.POS_X + (raw.cx + raw.width)
 		end
 		
 		-- bottom = position y object + cy raw hb...
@@ -127,10 +129,16 @@ HITBOX = {
 	
 	debugHb = function(hb, bHex)
 		-- return a string with given box data...
+		-- keys depends if HB raw or not...
+		local a = hb.left and hb.left or hb.cx
+		local b = hb.right and hb.right or hb.width
+		local c = hb.bottom and hb.bottom or hb.cy
+		local d = hb.top and hb.top or hb.height
+		
 		if bHex == nil then
-			return hb.left..","..hb.right..","..hb.bottom..","..hb.top
+			return a..","..b..","..c..","..d
 		else
-			return h(hb.left, nil, 4, "")..","..h(hb.right, nil, 4, "")..","..h(hb.bottom, nil, 4, "")..","..h(hb.top, nil, 4, "")
+			return h(a, nil, 4, "")..","..h(b, nil, 4, "")..","..h(c, nil, 4, "")..","..h(d, nil, 4, "")
 		end
 	end,
 	currentFrame = -1,
@@ -153,9 +161,9 @@ HITBOX = {
 		SPRITE		= { offset = 0x021A, type = "w" },
 	},
 	hbType = {
-		PASSIVE 	= { offset = 0x02A0, number = 4, color = 0x0000FF00, display = false },
+		PASSIVE 	= { offset = 0x02A0, number = 4, color = 0x0000FF00, display = true },
 		ACTIVE 		= { offset = 0x02C8, number = 4, color = 0xFF000000, display = true },
-		LIMB 		= { offset = 0x02A8, number = 4, color = 0x0099FF00, display = false },
+		LIMB 		= { offset = 0x02A8, number = 4, color = 0x0099FF00, display = true },
 		THROW 		= { offset = 0x02B8, number = 1, color = 0xFF009900, display = false },
 		THROWABLE 	= { offset = 0x02C0, number = 1, color = 0x00FF0000, display = false },
 		PUSH 		= { offset = 0x02D4, number = 1, color = 0xFF990000, display = false },
@@ -164,7 +172,7 @@ HITBOX = {
 	entity = {
 		p1 = { name = "P1", base = 0x02068C6C, display = true },
 		p2 = { name = "P2", base = 0x02069104, display = true },
-		obj = { name = "OBJ", base = 0x02028990, display = true }
+		obj = { name = "OBJ", base = 0x02028990, display = false }
 	},
 	forceNoZoom = function()
 		
